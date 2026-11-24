@@ -33,7 +33,7 @@ Or manually add **https://github.com/gogamid/morphed** as a patch source in Morp
 ## 🩹 Patches list
 
 <!-- PATCHES_START -->
-> **[v1.0.2](https://github.com/gogamid/morphed/releases/tag/v1.0.2)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`main`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**1 patch** across **1 app**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
+> **[v1.0.3](https://github.com/gogamid/morphed/releases/tag/v1.0.3)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`main`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**1 patch** across **1 app**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
 
 | # | App | Patches | Version | Package |
 |---|---|---|---|---|

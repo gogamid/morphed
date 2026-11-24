@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/gogamid/morphed/compare/v1.0.2...v1.0.3) (2026-11-24)
+
+### 🐛 Bug Fixes
+
+* **rossmann:** activate coupons from the Coupons tab and notify on success ([999dd90](https://github.com/gogamid/morphed/commit/999dd9049f4d0f18af2f2d5303f8702090b28dce))
+* **rossmann:** register before application startup branches ([4932edb](https://github.com/gogamid/morphed/commit/4932edb94860b428e929bb479bcc6bb6aa8a8d25))
+
 ## [1.0.2](https://github.com/gogamid/morphed/compare/v1.0.1...v1.0.2) (2026-11-24)
 
 ### 🐛 Bug Fixes

@@ -1,10 +1,10 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "patches": [
     {
       "name": "Auto claim coupons",
-      "description": "Activates every coupon that is available and not yet in the wallet when the app presents coupons. Each activation is the app's own activate action.",
+      "description": "Activates eligible coupons as they load, including in the Coupons tab, and notifies you when Rossmann confirms activation.",
       "default": true,
       "category": null,
       "compatiblePackages": [
