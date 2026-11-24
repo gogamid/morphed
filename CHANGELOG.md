@@ -1,3 +1,9 @@
+## [1.1.0-dev.4](https://github.com/gogamid/morphed/compare/v1.1.0-dev.3...v1.1.0-dev.4) (2026-11-24)
+
+### 🐛 Bug Fixes
+
+* **meindm:** skip the PairIP VM startup program and licensing binding ([2a98391](https://github.com/gogamid/morphed/commit/2a9839117cd9e0b27d63e14c93c9530d98aac09b))
+
 ## [1.1.0-dev.3](https://github.com/gogamid/morphed/compare/v1.1.0-dev.2...v1.1.0-dev.3) (2026-11-24)
 
 ### 🐛 Bug Fixes
