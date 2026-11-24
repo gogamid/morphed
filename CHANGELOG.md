@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/gogamid/morphed/compare/v1.0.0...v1.0.1) (2026-11-24)
+
+### 🐛 Bug Fixes
+
+* **rossmann:** match the full constructor parameter list ([9def13b](https://github.com/gogamid/morphed/commit/9def13be1d72adca45d84d1aa88de001808cf029))
+
 ## 1.0.0 (2026-11-24)
 
 ### ✨ New Features
