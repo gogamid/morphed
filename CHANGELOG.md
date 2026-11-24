@@ -1,3 +1,9 @@
+## [1.1.0-dev.2](https://github.com/gogamid/morphed/compare/v1.1.0-dev.1...v1.1.0-dev.2) (2026-11-24)
+
+### ✨ New Features
+
+* **meindm:** disable PairIP Play license and signature check ([ea6ddef](https://github.com/gogamid/morphed/commit/ea6ddefbfc369fd8daeffadef8b1f9f442329d5d))
+
 ## [1.1.0-dev.1](https://github.com/gogamid/morphed/compare/v1.0.3...v1.1.0-dev.1) (2026-11-24)
 
 ### ✨ New Features

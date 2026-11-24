@@ -1,6 +1,6 @@
 {
   "NOTE": "Do NOT manually edit this file. This file is automatically updated when semantic release (release.yml) runs. Manually editing this file can break your releases and break third party tools that use this file.",
-  "version": "1.1.0-dev.1",
+  "version": "1.1.0-dev.2",
   "patches": [
     {
       "name": "Auto activate dm coupons",
@@ -46,6 +46,33 @@
           "targets": [
             {
               "version": "5.11.1",
+              "versionCodes": null,
+              "isExperimental": false,
+              "minSdk": null,
+              "description": null
+            }
+          ]
+        }
+      ],
+      "options": []
+    },
+    {
+      "name": "Disable Play license check",
+      "description": "Stops the Google Play license and signature check from blocking the patched app with a \"Get this app from Play\" screen.",
+      "default": true,
+      "category": null,
+      "compatiblePackages": [
+        {
+          "packageName": "de.dm.meindm.android",
+          "name": "Mein dm",
+          "description": null,
+          "apkFileType": "APKM",
+          "appIconColor": "#00366C",
+          "signatures": null,
+          "formFactor": "MOBILE",
+          "targets": [
+            {
+              "version": "6.23.0",
               "versionCodes": null,
               "isExperimental": false,
               "minSdk": null,

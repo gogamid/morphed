@@ -1,6 +1,6 @@
 # Patches
 
-> Generated from `patches-list.json` — **v1.1.0-dev.1** (`dev`) · **2 patches** across **2 apps** · back to [README](README.md)
+> Generated from `patches-list.json` — **v1.1.0-dev.2** (`dev`) · **3 patches** across **2 apps** · back to [README](README.md)
 
 ---
 
@@ -11,6 +11,7 @@
 | Patch | Details |
 |---|---|
 | **Auto activate dm coupons** | Experimental: activates visible German-language dm coupons in the foreground Coupons tab. Scroll to load more. A notification follows the app's successful activation message. |
+| **Disable Play license check** | Stops the Google Play license and signature check from blocking the patched app with a "Get this app from Play" screen. |
 
 ---
 
