@@ -29,26 +29,23 @@ object CouponDisruptorCreateFingerprint : Fingerprint(
 )
 
 /**
- * The constructor of the pages view model adapter, verified against Rossmann
- * 5.11.1 (versionCode 421000110).
- *
- * Hilt hands the adapter the app's own ActivateCoupon use case as its first
- * argument. The patch registers that instance in the extension, so the
- * extension can drive the app's own activate action.
+ * Common display-model conversion reached from the Coupons tab and search.
  */
-object PageViewModelAdapterConstructorFingerprint : Fingerprint(
-    definingClass = "Lde/rossmann/app/android/di/PageViewModelAdapterImpl;",
-    name = "<init>",
-    // Declared parameters must match the method's full parameter list. The class
-    // keeps its name, the first three arguments identify the constructor, and the
-    // remaining domain types are declared as objects so they survive obfuscation.
+object CouponDisplayModelFingerprint : Fingerprint(
+    definingClass = "Lde/rossmann/app/android/ui/coupon/CouponDisplayModelFactory;",
+    isStatic = true,
     parameters = listOf(
-        "Lde/rossmann/app/android/business/coupon/ActivateCoupon;",
-        "Lde/rossmann/app/android/business/coupon/DeactivateCoupon;",
-        "Lde/rossmann/app/business/repository/CouponRepository;",
-        "L",
-        "L",
-        "L",
-        "L",
+        "Lde/rossmann/app/android/models/coupon/Coupon;",
+        "Lde/rossmann/app/android/ui/coupon/CouponDisplayModel\$ValidityTextMode;",
+        "Lde/rossmann/app/android/ui/shared/Visibility;",
+        "Lde/rossmann/app/android/ui/shared/Visibility;",
     ),
+    returnType = "Lde/rossmann/app/android/ui/coupon/CouponDisplayModel;",
+)
+
+object RossmannApplicationOnCreateFingerprint : Fingerprint(
+    definingClass = "Lde/rossmann/app/android/ui/RossmannApplication;",
+    name = "onCreate",
+    parameters = emptyList(),
+    returnType = "V",
 )

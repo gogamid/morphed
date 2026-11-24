@@ -19,7 +19,7 @@ public final class Coupon {
     public final String l = null;
 
     /** Coupon is in the wallet. */
-    public final boolean q = false;
+    public final boolean q;
 
     /** Preview state of the coupon. NotPreview means the coupon is available now. */
     public final PreviewState R = null;

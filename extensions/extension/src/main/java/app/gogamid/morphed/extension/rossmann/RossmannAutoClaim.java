@@ -1,134 +1,132 @@
 package app.gogamid.morphed.extension.rossmann;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
+import android.util.Log;
+import arrow.core.Either;
 import de.rossmann.app.android.business.coupon.ActivateCoupon;
+import de.rossmann.app.android.business.coupon.CouponToggleResult.Success.Full;
 import de.rossmann.app.android.models.coupon.Coupon;
 import de.rossmann.app.android.models.coupon.Coupon.PreviewState.NotPreview;
+import java.util.ArrayDeque;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import kotlin.Unit;
 import kotlin.coroutines.Continuation;
 import kotlin.coroutines.CoroutineContext;
-import kotlin.coroutines.EmptyCoroutineContext;
+import kotlin.coroutines.intrinsics.CoroutineSingletons;
 import kotlin.coroutines.jvm.internal.ContinuationImpl;
 
-/**
- * Runtime of the "Auto claim coupons" patch for Rossmann (de.rossmann.app.android).
- *
- * The patch injects two calls into the app:
- *
- * - PageViewModelAdapterImpl's constructor hands over the Hilt-provided
- *   ActivateCoupon use case, so the extension drives the app's own activate
- *   action instead of a copy of it.
- * - CouponDisruptorState's factory hands over the coupon list it is about to
- *   turn into a disruptor state. The factory runs for the coupon nag helper,
- *   product search, the cart, order history and product details, so the
- *   coupon list is seen early and often.
- *
- * For every coupon that is not yet in the wallet and is available now, the
- * extension invokes the app's own suspend activate action. Exclusive
- * coupons, wallet limits and other domain refusals come back through the
- * Either result and stay silent, exactly like a refused manual tap.
- */
+/** Drives Rossmann's own activation action for eligible coupons loaded in the app. */
 public final class RossmannAutoClaim {
+    private static final String TAG = "MorphedCoupons";
+    private static final String CHANNEL_ID = "morphed_coupon_activation";
+    private static final int NOTIFICATION_ID = 0x4d43;
+    private static final ExecutorService WORKER = Executors.newSingleThreadExecutor();
+    private static final Set<String> ATTEMPTED = new HashSet<>();
+    private static final ArrayDeque<Coupon> QUEUE = new ArrayDeque<>();
 
-    /** The app's own activate use case, captured when Hilt wires the pages adapter. */
-    private static volatile ActivateCoupon activateCoupon;
+    // Only the worker accesses the queue, in-flight flag and count.
+    private static boolean inFlight;
+    private static int confirmed;
+    private static Context app;
+    private static CoroutineContext emptyContext;
+    private static volatile ActivateCoupon action;
 
-    /** Coupon EANs this process already tried, so repeated calls stay silent. */
-    private static final Set<String> CLAIMED = ConcurrentHashMap.newKeySet();
+    private RossmannAutoClaim() {}
 
-    /** Claims run off the main thread; Room and the wallet sync pick their own dispatchers. */
-    private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
-
-    private RossmannAutoClaim() {
+    /** Called after application startup, with Rossmann's Hilt action and Kotlin context. */
+    public static void register(Context context, ActivateCoupon activate, CoroutineContext coroutineContext) {
+        app = context;
+        emptyContext = coroutineContext;
+        action = activate;
     }
 
-    /** Called by the code injected into PageViewModelAdapterImpl's constructor. */
-    public static void register(ActivateCoupon activate) {
-        if (activate != null) {
-            activateCoupon = activate;
+    public static void onCoupons(List<?> coupons) {
+        if (coupons == null) return;
+        for (Object item : coupons) {
+            if (item instanceof Coupon) onCoupon((Coupon) item);
         }
     }
 
-    /** Called by the code injected into CouponDisruptorState's factory. */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    public static void onCoupons(List coupons) {
-        ActivateCoupon activate = activateCoupon;
-        if (activate == null || coupons == null || coupons.isEmpty()) {
-            return;
-        }
-        NotPreview availableNow = NotPreview.a;
-        for (Object element : coupons) {
-            if (!(element instanceof Coupon)) {
-                continue;
+    public static void onCoupon(Coupon coupon) {
+        if (action == null || coupon == null || coupon.q || coupon.R != NotPreview.a
+                || coupon.l == null || coupon.l.isEmpty()) return;
+        WORKER.execute(() -> {
+            if (ATTEMPTED.add(coupon.l)) {
+                QUEUE.addLast(coupon);
+                drain();
             }
-            Coupon coupon = (Coupon) element;
-            if (coupon.q) {
-                // Already in the wallet.
-                continue;
-            }
-            if (availableNow == null || coupon.R == null || !availableNow.equals(coupon.R)) {
-                // The coupon is a preview and becomes available later. Skip it without
-                // marking it attempted, so it is claimed once it becomes available.
-                continue;
-            }
-            String ean = coupon.l;
-            if (ean == null || ean.isEmpty()) {
-                // No backend identifier, the activate action cannot sync this one.
-                continue;
-            }
-            if (!CLAIMED.add(ean)) {
-                // Already attempted in this process.
-                continue;
-            }
-            EXECUTOR.execute(() -> claim(activate, coupon));
-        }
+        });
     }
 
-    private static void claim(ActivateCoupon activate, Coupon coupon) {
+    private static void drain() {
+        if (inFlight || QUEUE.isEmpty()) return;
+        Coupon coupon = QUEUE.removeFirst();
+        inFlight = true;
         try {
-            // The app's own activate action. Completing the returned continuation is a
-            // no-op, so the claim is fire and forget and refusals stay silent.
-            activate.c(coupon, new ClaimContinuation());
-        } catch (Throwable ignored) {
-            // Silent refusals.
+            Object result = action.c(coupon, new ClaimContinuation());
+            if (result != CoroutineSingletons.COROUTINE_SUSPENDED) complete(result);
+        } catch (Exception | LinkageError error) {
+            Log.w(TAG, "Activation could not run: " + error.getClass().getSimpleName());
+            complete(null);
         }
     }
 
-    /** Continuation for the app's suspend activate use case. */
-    static final class ClaimContinuation extends ContinuationImpl {
+    private static void complete(Object result) {
+        // Schedule the next claim only after the entire suspend call completes.
+        WORKER.execute(() -> {
+            try {
+                if (result instanceof Either.Right && ((Either.Right) result).a instanceof Full) {
+                    notifyConfirmed(++confirmed);
+                } else if (!(result instanceof Either)) {
+                    Log.w(TAG, "Activation ended without an app result");
+                }
+            } finally {
+                inFlight = false;
+                drain();
+            }
+        });
+    }
 
+    @SuppressWarnings("deprecation") // Pre-channel constructor for API 24–25.
+    private static void notifyConfirmed(int count) {
+        NotificationManager manager = app.getSystemService(NotificationManager.class);
+        if (manager == null || !manager.areNotificationsEnabled()) return;
+        try {
+            Notification.Builder builder;
+            if (Build.VERSION.SDK_INT >= 26) {
+                manager.createNotificationChannel(new NotificationChannel(
+                        CHANNEL_ID, "Coupon-Aktivierung", NotificationManager.IMPORTANCE_DEFAULT));
+                builder = new Notification.Builder(app, CHANNEL_ID);
+            } else {
+                builder = new Notification.Builder(app);
+            }
+            manager.notify(NOTIFICATION_ID, builder
+                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                    .setContentTitle("Coupons automatisch aktiviert")
+                    .setContentText(count == 1 ? "1 Coupon aktiviert" : count + " Coupons aktiviert")
+                    .setOnlyAlertOnce(true)
+                    .setAutoCancel(true)
+                    .build());
+        } catch (SecurityException ignored) {
+            // Permission may have changed between checking and posting.
+        }
+    }
+
+    private static final class ClaimContinuation extends ContinuationImpl {
         ClaimContinuation() {
-            super(TerminalContinuation.INSTANCE);
+            super(new Continuation<Object>() {
+                @Override public CoroutineContext getContext() { return emptyContext; }
+                @Override public void resumeWith(Object result) { complete(result); }
+            });
         }
 
-        @Override
-        public Object invokeSuspend(Object result) {
-            return Unit.INSTANCE;
-        }
-
-        @Override
-        protected void releaseIntercepted() {
-            // No interceptor to release.
-        }
-    }
-
-    /** Terminal continuation that drops the result. */
-    static final class TerminalContinuation implements Continuation<Object> {
-
-        static final TerminalContinuation INSTANCE = new TerminalContinuation();
-
-        @Override
-        public CoroutineContext getContext() {
-            return EmptyCoroutineContext.INSTANCE;
-        }
-
-        @Override
-        public void resumeWith(Object result) {
-            // Fire and forget.
-        }
+        @Override public Object invokeSuspend(Object result) { return result; }
     }
 }

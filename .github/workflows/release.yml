@@ -57,3 +57,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew :patches:buildAndroid clean --no-daemon
+
+      - name: Upload candidate patch bundle
+        if: steps.release.outputs.new_release_published != 'true' && startsWith(github.ref_name, 'validate/')
+        uses: actions/upload-artifact@v7
+        with:
+          name: candidate-patches
+          path: patches/build/libs/patches-*.mpp
+          if-no-files-found: error
