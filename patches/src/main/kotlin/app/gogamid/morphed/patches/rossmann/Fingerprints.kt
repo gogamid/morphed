@@ -39,9 +39,16 @@ object CouponDisruptorCreateFingerprint : Fingerprint(
 object PageViewModelAdapterConstructorFingerprint : Fingerprint(
     definingClass = "Lde/rossmann/app/android/di/PageViewModelAdapterImpl;",
     name = "<init>",
+    // Declared parameters must match the method's full parameter list. The class
+    // keeps its name, the first three arguments identify the constructor, and the
+    // remaining domain types are declared as objects so they survive obfuscation.
     parameters = listOf(
         "Lde/rossmann/app/android/business/coupon/ActivateCoupon;",
         "Lde/rossmann/app/android/business/coupon/DeactivateCoupon;",
         "Lde/rossmann/app/business/repository/CouponRepository;",
+        "L",
+        "L",
+        "L",
+        "L",
     ),
 )
