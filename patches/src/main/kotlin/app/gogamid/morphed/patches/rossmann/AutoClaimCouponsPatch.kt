@@ -3,7 +3,8 @@ package app.gogamid.morphed.patches.rossmann
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.patch
 import app.gogamid.morphed.patches.shared.Constants.COMPATIBILITY_ROSSMANN
-import com.android.tools.smali.dexlib2.Opcode
+import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
+import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
 private const val EXTENSION_CLASS = "Lapp/gogamid/morphed/extension/rossmann/RossmannAutoClaim;"
 private const val COMPONENT = "Lde/rossmann/app/android/ui/DaggerRossmannApplication_HiltComponents_SingletonC\$SingletonCImpl;"
@@ -20,20 +21,23 @@ val autoClaimCouponsPatch = patch(
 
     execute {
         val onCreate = RossmannApplicationOnCreateFingerprint.method
-        val returns = onCreate.implementation!!.instructions.withIndex()
-            .filter { it.value.opcode == Opcode.RETURN_VOID }
-        check(returns.size == 1) { "Expected one normal return in RossmannApplication.onCreate" }
-        // v0/v1 are dead at the return. Hilt and application startup have completed.
+        val preload = onCreate.implementation!!.instructions.withIndex().single { (_, instruction) ->
+            val method = (instruction as? ReferenceInstruction)?.reference as? MethodReference
+            method?.definingClass == "Lde/rossmann/app/android/ui/sideeffects/CartImagesPreloading;" &&
+                method.name == "a" && method.parameterTypes.isEmpty() && method.returnType == "V"
+        }
+        // After startup but before the debug-only return paths. v1 is overwritten next,
+        // v4 is dead, and v0 must remain intact for the app's debug exception handler.
         onCreate.addInstructions(
-            returns.single().index,
+            preload.index + 1,
             """
                 invoke-virtual {p0}, Lde/rossmann/app/android/ui/Hilt_RossmannApplication;->C0()Ljava/lang/Object;
-                move-result-object v0
-                check-cast v0, $COMPONENT
-                invoke-virtual {v0}, $COMPONENT->n()$ACTIVATE
-                move-result-object v0
-                sget-object v1, Lkotlin/coroutines/EmptyCoroutineContext;->a:Lkotlin/coroutines/EmptyCoroutineContext;
-                invoke-static {p0, v0, v1}, $EXTENSION_CLASS->register(Landroid/content/Context;${ACTIVATE}Lkotlin/coroutines/CoroutineContext;)V
+                move-result-object v1
+                check-cast v1, $COMPONENT
+                invoke-virtual {v1}, $COMPONENT->n()$ACTIVATE
+                move-result-object v1
+                sget-object v4, Lkotlin/coroutines/EmptyCoroutineContext;->a:Lkotlin/coroutines/EmptyCoroutineContext;
+                invoke-static {p0, v1, v4}, $EXTENSION_CLASS->register(Landroid/content/Context;${ACTIVATE}Lkotlin/coroutines/CoroutineContext;)V
             """.trimIndent(),
         )
 
