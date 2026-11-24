@@ -17,6 +17,8 @@ morphe-signing.key
 
 # Package Files #
 *.jar
+# Compile-only stubs of app classes the extension links against (see extensions/extension/stubs).
+!extensions/extension/libs/*.jar
 *.war
 *.nar
 *.ear

@@ -1,20 +1,34 @@
-# 👋🧩 Morphe Patches template
+# Morphed
 
-Template repository for Morphe Patches.
+Morphe patches for German apps. ⚠️ Only patches — no proprietary code or rebuilt APKs. ⚠️
 
-## ❓ About
-
-Patches for apps I like.
-
-<!-- TODO: Update this about section with a brief introduction/summary about this repo and what it offers. -->
-
-### How to use these patches
-
-Click the button below, or manually add this repo url to Morphe Manager: https://github.com/xyz-user/xyz-patches
-
-<a href="https://morphe.software/add-source?github=xyz-user/xyz-patches">
+<a href="https://morphe.software/add-source?github=gogamid/morphed">
   <img src=".github/assets/add-to-morphe.svg" alt="Add to Morphe" height="48">
 </a>
+
+Or manually add **https://github.com/gogamid/morphed** as a patch source in Morphe.
+
+## ⚠️ Warning
+
+- **No affiliation.** Morphed is an independent community project. It is not affiliated
+  with, endorsed by, or supported by Rossmann, dm-drogerie markt, or the Morphe project.
+- **Trademarks.** Rossmann, Mein dm and all other product names and logos belong to their
+  respective owners. They are used here only to say which apps the patches work with.
+- **No app files.** This repository hosts only patch code. It does not contain proprietary
+  code or rebuilt APKs. You must get the app from an official source yourself.
+- **Your responsibility.** Modifying an app may break its terms of service or its
+  functionality. You are responsible for your use of these patches.
+- **No warranty.** These patches come without any warranty, as set out in sections 15
+  and 16 of the GNU General Public License v3.0.
+
+## 🚀 Quick start
+
+1. Install Morphe from [morphe.software](https://morphe.software).
+2. Open the [Add to Morphe](https://morphe.software/add-source?github=gogamid/morphed) link,
+   or add `https://github.com/gogamid/morphed` manually as a patch source.
+3. Pick the app you want to patch.
+4. Select the patches you want.
+5. Patch the app.
 
 ## 🩹 Patches list
 
@@ -31,75 +45,32 @@ Click the button below, or manually add this repo url to Morphe Manager: https:/
 #### A list of your patches will automatically be shown here after your first patches release is created.
 
 &nbsp;
-
-## 🚀 Getting development started
-
-To start using this template, follow these steps:
-
-1. [Setup](https://github.com/MorpheApp/morphe-documentation/blob/main/docs/morphe-development/README.md) your development environment including adding a GitHub PAT as described [here](https://github.com/MorpheApp/morphe-patcher/blob/main/docs/2_1_setup.md#-prepare-the-environment).
-2. [Create a new repository using this template](https://github.com/new?template_name=morphe-patches-template&template_owner=MorpheApp). Select create a new repository, and **enable 'Include all branches'** 
-3. Enable "Allow GitHub Actions to create and approve pull requests" in your repo Settings > Actions > General > Workflow permissions
-4. Update the [build.gradle.kts](patches/build.gradle.kts) file (Specifically, the 
-   [group of the project](patches/build.gradle.kts#L1), and the [About](patches/build.gradle.kts#L6-L11))
-5. Update the [README.md](README.md) file to be specific of your repo, and update the links in the [issue templates](.github/ISSUE_TEMPLATE).
-6. Choose a name for your patches project. Keep in mind you must use a name that does not 
-   imply authorship by the Morphe open source project. If unsure, then simply name these
-   patches after yourself ("UserXYZ Morphe patches"). See the [NOTICE](NOTICE) for details. 
-7. (Optional): Add `patches-bundle.png` to the project if you want a custom icon to show in
-   Morphe Manager instead of your GitHub profile avatar.
-8. (Optional): Set `INCLUDE_APP_ICONS = True` in [generate_patches_readme.py](.github/scripts/generate_patches_readme.py) to show app icons in the generated patches list.
-9. (Optional): Sign your releases, so Morphe Manager refuses a release that was changed or swapped after you published it:
-   1. Run `./gradlew generateSigningKey`. It creates `morphe-signing.pub` and `morphe-signing.key`.
-   2. Commit `morphe-signing.pub`. Never commit `morphe-signing.key`, it is already ignored by git.
-   3. Add the content of `morphe-signing.key` as the `MORPHE_SIGNING_KEY` secret in your repo
-      Settings > Secrets and variables > Actions, then keep a backup of it somewhere safe and delete the file.
-
-   Every release is signed from then on. If you lose the key or it leaks, create a new one the same way;
-   users then have to confirm the new key in Morphe Manager before they get your next release.
-
-🎉 You are now ready to start creating patches!
-
-## 🧑‍💻 Dev usage
-
-To develop and release your Patches using this template:
-
-- **Make all changes to the `dev` branch.**
-- For local development work build your patches using the gradle task `./gradlew buildAndroid` to generate the mpp file found in `patches/build/libs/patches-*.mpp`. Apply your patches locally using Morphe Desktop tool like any other patch bundle.
-- Always use [Semantic commit](https://kapeli.com/cheat_sheets/Semantic_Commits.docset/Contents/Resources/Documents/index) messages for commits. To keep it simple use only 3 commit message types: 
-  - `feat: Added a new feature`
-  - `fix: Some problem now fixed`
-  - `chore: Random change you do not want in the user facing changelog`
-- Commits of `fix:` and `feat:` will automatically generate new pre-releases and `chore:` will not create a new release.
-- Users can apply your dev branch releases by enabling `pre-release` in Morphe Manager patch sources.
-- When your dev branch is ready, and you want a stable release, merge dev branch to main (do not squash, and only merge).
-- **Always use semantic release (release.yml)**. Do not manually upload or create releases by hand
-  because many files must be updated and release.yml handles everything.
-
-## 🤓 Tips
-- See the [patcher documentation](https://github.com/MorpheApp/morphe-patcher/blob/main/docs/1_patcher_intro.md) for more examples of creating patches and fingerprints.
-- Do not use AI to create new release scripts. The `release.yml` here already handles everything.
-  If you need something custom with your releases then modify the existing `release.yml`
-  and `.releaserc` instead of writing everything new from scratch.
-- Do not manually edit or manually commit any generated files such as: `patches-list.json`,
-  `patches-bundle.json`, `PATCHES.md`, `CHANGELOG.md`.  These files will be automatically updated by `release.yml`.
-- Do not force push any semantic release commits as that will break all future releases.
-  If you need to fix a broken release, it's always easiest to create a new release instead of 
-  fixing an existing release.
-
-
-<!-- The patches end tag is intentionally placed here so the first release will clean up 
-     this readme of all developer instructions above. -->
 <!-- PATCHES_END -->
 
-### 🛠️ Building locally
+## 🧑‍💻 Development
 
-- Run `./gradlew buildAndroid`
-- The built patches .mpp file is found in `patches/build/libs/patches-*.mpp`
-- Patch the mpp file using [Morphe-Desktop](https://github.com/MorpheApp/morphe-desktop)
-  like any other patch bundle.
+Build the patch bundle locally with:
 
-See the [Morphe documentation](https://github.com/MorpheApp/morphe-documentation) for more information.
+```sh
+./gradlew buildAndroid
+```
+
+The built patches file is written to `patches/build/libs/patches-*.mpp`.
+
+The `app.morphe.patches` Gradle plugin is resolved from Morphe's GitHub Packages registry,
+so local builds need credentials: set the `gpr.user` and `gpr.key` Gradle properties
+(for example in `~/.gradle/gradle.properties`), or provide the `GITHUB_ACTOR` and
+`GITHUB_TOKEN` environment variables.
+
+Releases are automated from `main` with semantic-release using
+[conventional commit](https://www.conventionalcommits.org/) messages:
+
+- `feat:` → minor release
+- `fix:`, `perf:`, `bump:` → patch release
+- `chore:` → no release
+
+The `dev` branch produces pre-releases.
 
 ## 📜 License
 
-UserXYZ Patches are licensed under the [GNU General Public License v3.0](LICENSE)
+Morphed Patches are licensed under the [GNU General Public License v3.0](LICENSE).
