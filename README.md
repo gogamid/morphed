@@ -33,11 +33,12 @@ Or manually add **https://github.com/gogamid/morphed** as a patch source in Morp
 ## 🩹 Patches list
 
 <!-- PATCHES_START -->
-> **[v1.0.3](https://github.com/gogamid/morphed/releases/tag/v1.0.3)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`main`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**1 patch** across **1 app**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
+> **[v1.1.0-dev.1](https://github.com/gogamid/morphed/releases/tag/v1.1.0-dev.1)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`dev`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**2 patches** across **2 apps**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
 
 | # | App | Patches | Version | Package |
 |---|---|---|---|---|
-| 1 | [**Rossmann**](PATCHES.md#rossmann-derossmannappandroid) | 1 | `5.11.1` | [`de.rossmann.app.android`](https://play.google.com/store/apps/details?id=de.rossmann.app.android) |
+| 1 | [**Mein dm**](PATCHES.md#mein-dm-dedmmeindmandroid) | 1 | `6.23.0` | [`de.dm.meindm.android`](https://play.google.com/store/apps/details?id=de.dm.meindm.android) |
+| 2 | [**Rossmann**](PATCHES.md#rossmann-derossmannappandroid) | 1 | `5.11.1` | [`de.rossmann.app.android`](https://play.google.com/store/apps/details?id=de.rossmann.app.android) |
 <!-- PATCHES_END -->
 
 ## 🧑‍💻 Development

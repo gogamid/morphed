@@ -1,3 +1,9 @@
+## [1.1.0-dev.1](https://github.com/gogamid/morphed/compare/v1.0.3...v1.1.0-dev.1) (2026-11-24)
+
+### ✨ New Features
+
+* **meindm:** add experimental Coupons tab auto-activation ([ed1d9bd](https://github.com/gogamid/morphed/commit/ed1d9bd6cedb60b6cd921e3d22d94c51c2d9bd32))
+
 ## [1.0.3](https://github.com/gogamid/morphed/compare/v1.0.2...v1.0.3) (2026-11-24)
 
 ### 🐛 Bug Fixes

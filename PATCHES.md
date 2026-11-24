@@ -1,6 +1,16 @@
 # Patches
 
-> Generated from `patches-list.json` — **v1.0.3** (`main`) · **1 patch** across **1 app** · back to [README](README.md)
+> Generated from `patches-list.json` — **v1.1.0-dev.1** (`dev`) · **2 patches** across **2 apps** · back to [README](README.md)
+
+---
+
+## Mein dm (de.dm.meindm.android)
+
+**Supported versions:** `6.23.0`
+
+| Patch | Details |
+|---|---|
+| **Auto activate dm coupons** | Experimental: activates visible German-language dm coupons in the foreground Coupons tab. Scroll to load more. A notification follows the app's successful activation message. |
 
 ---
 
