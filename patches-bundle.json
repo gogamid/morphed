@@ -1,7 +1,7 @@
 {
-  "created_at": "",
-  "description": "",
-  "download_url": "",
+  "created_at": "2026-11-24T10:52:59",
+  "description": "## 1.0.0 (2026-11-24)\n\n### ✨ New Features\n\n* **rossmann:** auto claim coupons ([9e6fd0c](https://github.com/gogamid/morphed/commit/9e6fd0c534509e13cded3115cb0dd99b32946d2d))\n\n### 🐛 Bug Fixes\n\n* **build:** let the build plugin supply the extension repositories ([95f88a9](https://github.com/gogamid/morphed/commit/95f88a96414190e59990b9c4ac59678737333d0d))",
+  "download_url": "https://github.com/gogamid/morphed/releases/download/v1.0.0/patches-1.0.0.mpp",
   "signature_download_url": "",
-  "version": ""
+  "version": "1.0.0"
 }

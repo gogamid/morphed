@@ -1,0 +1,9 @@
+## 1.0.0 (2026-11-24)
+
+### ✨ New Features
+
+* **rossmann:** auto claim coupons ([9e6fd0c](https://github.com/gogamid/morphed/commit/9e6fd0c534509e13cded3115cb0dd99b32946d2d))
+
+### 🐛 Bug Fixes
+
+* **build:** let the build plugin supply the extension repositories ([95f88a9](https://github.com/gogamid/morphed/commit/95f88a96414190e59990b9c4ac59678737333d0d))
