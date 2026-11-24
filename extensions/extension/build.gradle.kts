@@ -2,10 +2,6 @@ extension {
     name = "extensions/extension.mpe"
 }
 
-repositories {
-    mavenCentral()
-}
-
 dependencies {
     // Rossmann 5.11.1 app classes, compile-only. The sources live in stubs/
     // and are compiled into this jar; see stubs/README.md. The extension dex
