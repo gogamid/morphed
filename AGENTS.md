@@ -70,4 +70,4 @@ bundles go to GitHub; keep input APK/APKM files and patched APKs local.
 | On-device APK/APKM recon: jadx, apktool, strings, javap; verifying obfuscated stdlib/Hilt names and stub constant folding | [docs/learnings/apk-analysis-workflow.md](docs/learnings/apk-analysis-workflow.md) |
 | `.mpe` extension + compile-only stub jars, stock Kotlin singleton fields, suspend sync vs suspend completion, success-only notifications | [docs/learnings/extension-and-stubs.md](docs/learnings/extension-and-stubs.md) |
 | Build failures, CLI validation, release pipeline, `validate/*` candidate artifacts, naming/licensing | [docs/learnings/build-and-release.md](docs/learnings/build-and-release.md) |
-| Mein dm 6.23.0 Coupons screen and Hermes activation path | [docs/learnings/mein-dm-hermes.md](docs/learnings/mein-dm-hermes.md) |
+| Mein dm 6.23.0 Coupons screen, Hermes activation path, PairIP license/signature gates | [docs/learnings/mein-dm-hermes.md](docs/learnings/mein-dm-hermes.md) |

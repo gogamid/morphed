@@ -22,6 +22,29 @@ is exposed in Morphe Manager yet.
   a closed dialog, or an awaited button press as confirmation. Verify the activate-only
   result and an inactive-to-active transition for the same coupon in the app's state.
 
+## PairIP blocks every repackaged build
+
+Mein dm carries Google's PairIP protection. Its manifest names the shell
+`com.pairip.application.Application`, which extends the real `MyDmApplication` and, in
+`attachBaseContext`, runs `SignatureCheck.verifyIntegrity(context)` and
+`LicenseClient.checkLicense(context)` before delegating to the app.
+
+- `SignatureCheck.verifyIntegrity` compares the APK signing certificate hash with PairIP's
+  pinned values and throws for any repackaged build.
+- `LicenseClient.checkLicense` binds to Play's licensing service. An unlicensed install makes
+  it launch `LicenseActivity`, which sends Play's paywall intent — the "Get this app from
+  Play" screen — and closes the app.
+- The app's own logic is also virtualized: many methods call `VMRunner.invoke(...)` into
+  `libpairipcore.so`. Do **not** disable the VM or `StartupLauncher`; the rest of the app
+  depends on it.
+
+The "Disable Play license check" patch neutralizes only the two gates: `checkLicense` and
+`verifyIntegrity` each start with `return-void`. The approach for `checkLicense` follows
+[amfakh/fakh-patches](https://github.com/amfakh/fakh-patches) (GPL-3.0-only), which ships the
+same patch for Muslim Pro; the signature gate is added here because Mein dm runs it.
+Application succeeds locally; a device test still has to confirm that no other PairIP path
+blocks startup.
+
 Function IDs are observations for this exact bundle, not cross-version fingerprints.
 `hermes-dec` warns on version 98, so corroborate opcodes and offsets before writing any code.
 
