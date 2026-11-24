@@ -3,6 +3,7 @@ package app.gogamid.morphed.patches.shared.pairip
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.extensions.InstructionExtensions.addInstructions
 import app.morphe.patcher.patch.patch
+import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
 
 /**
  * PairIP license check, adapted from amfakh/fakh-patches (GPL-3.0-only).
@@ -56,16 +57,21 @@ private val initializeLicenseCheckFingerprint = Fingerprint(
 )
 
 /**
- * `StartupLauncher.launch()` runs PairIP's native startup program from the static
- * initializer of the app component factory, before the Application exists. On
- * Mein dm it keeps triggering the Play gate even when every Java check above is
- * neutral. The rest of the app executes its own VM programs per call, so the
- * startup program is not needed for them.
+ * `LicenseClient` binds Play's licensing service through a private method that
+ * takes a boolean and calls `Context.bindService`. Every licensing failure path
+ * ends there, including paths entered from PairIP's VM. Without the bind, Play
+ * never receives a request and cannot open its "Get this app from Play" screen.
  */
-private val startupLauncherFingerprint = Fingerprint(
-    definingClass = "Lcom/pairip/StartupLauncher;",
-    name = "launch",
+private val licensingBindFingerprint = Fingerprint(
     returnType = "V",
+    parameters = listOf("Z"),
+    custom = { method, classDef ->
+        classDef.type == "Lcom/pairip/licensecheck/LicenseClient;" &&
+            method.implementation?.instructions?.any { instruction ->
+                (instruction as? ReferenceInstruction)?.reference
+                    ?.toString()?.contains("->bindService(") == true
+            } == true
+    },
 )
 
 /** Neutralizes PairIP's Play licensing and signature gates. Internal dependency. */
@@ -75,6 +81,6 @@ internal val pairipLicenseCheckPatch = patch {
         verifyIntegrityFingerprint.method.addInstructions(0, "return-void")
         licenseActivityOnStartFingerprint.method.addInstructions(0, "return-void")
         initializeLicenseCheckFingerprint.method.addInstructions(0, "return-void")
-        startupLauncherFingerprint.method.addInstructions(0, "return-void")
+        licensingBindFingerprint.method.addInstructions(0, "return-void")
     }
 }
