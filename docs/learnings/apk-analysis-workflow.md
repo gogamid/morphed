@@ -78,6 +78,37 @@ grep -n '\.method' apktool-out/smali*/de/rossmann/app/android/business/coupon/Ac
 Any smali that a patch injects must use exactly these names and descriptors — a single
 wrong descriptor is an unverifiable method at install/patch time.
 
+### Also verify the library and Hilt names the extension links against
+
+The app R8-reprocesses its bundled Kotlin runtime and Hilt output, so stock names are not
+safe. Check the actual fields/methods before relying on them:
+
+```sh
+grep -n '\.field' apktool-out/smali*/kotlin/Unit.smali \
+    apktool-out/smali*/kotlin/coroutines/EmptyCoroutineContext.smali
+# .field public static final a:Lkotlin/Unit;
+# .field public static final a:Lkotlin/coroutines/EmptyCoroutineContext;
+
+grep -n '\.method' apktool-out/smali*/de/rossmann/app/android/ui/Hilt_RossmannApplication.smali \
+    | grep C0
+grep -n '\.method' \
+    apktool-out/smali*/de/rossmann/app/android/ui/DaggerRossmannApplication_HiltComponents_SingletonC\$SingletonCImpl.smali \
+    | grep 'n()'
+```
+
+`C0()`/`n()` are generated Hilt graph members, not app API; re-check them on every version
+bump together with the app's own renamed methods. For an injection point, count the `return`
+opcodes in the target method as well — `RossmannApplication.onCreate` has two `return-void`
+paths, so "inject before the return" is not unique.
+
+To catch constant folding, inspect the **compiled extension**, not only the Java source:
+
+```sh
+javap -c -p -classpath <extension-classes> \
+    app.gogamid.morphed.extension.rossmann.RossmannAutoClaim | grep -n 'Coupon.q'
+# no getfield = the stub's "= false" initialiser removed the runtime read
+```
+
 Also search for the string filters used by fingerprints, to see which method they really
 pin:
 

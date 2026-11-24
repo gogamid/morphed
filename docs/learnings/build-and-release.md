@@ -69,7 +69,24 @@ Manager — fix the fingerprint, do not ship.
 6. `@cleyrop-org/semantic-release-backmerge` backmerges `main` → `dev`.
 
 If semantic-release publishes nothing (chore/docs commit, non-main/dev branch), the workflow
-still verifies compilation with `./gradlew :patches:buildAndroid clean --no-daemon`.
+still verifies compilation with `./gradlew clean :patches:buildAndroid --no-daemon` — `clean`
+first, so it cannot delete the `.mpp` that the next step uploads.
+
+### Candidate bundles from `validate/*` branches
+
+On a non-release run from a branch whose name starts with `validate/`, the workflow uploads
+`patches/build/libs/patches-*.mpp` as the `candidate-patches` artifact. To test a patch
+without publishing a release:
+
+1. push the candidate to a `validate/…` branch;
+2. wait for the compile job, then download `candidate-patches`;
+3. patch the stock `.apkm` locally with that `.mpp` (CLI recipe above) and install it locally.
+
+A candidate artifact is **not** a release: `patches-bundle.json` does not point at it, and no
+user gets it from Morphe Manager. CI builds and verifies compilation; do not upload stock
+APK/APKM files or patched APKs as artifacts, release assets, or cache inputs. Both the v1.0.3
+candidate and the published bundle applied to the exact APKM locally. Live notifications,
+already-in-wallet coupons, preview coupons and the Coupons tab still need a signed-in device check.
 
 **Never hand-edit the generated files** — the pipeline overwrites them and manual edits break
 third-party consumers: `patches-bundle.json`, `patches-list.json`, `PATCHES.md`,
@@ -131,6 +148,10 @@ val COMPATIBILITY_ROSSMANN = Compatibility(
 ```
 
 Bump `AppTarget(version = …)` only after re-verifying every fingerprint and every renamed
-member (`c`, `q`, `l`, `R`, `NotPreview.a`) in smali, renaming
-`extensions/extension/libs/rossmann-stub-<version>.jar` to match, and updating the
-`compileOnly` line in `extensions/extension/build.gradle.kts`.
+member (`ActivateCoupon.c`, `CouponDisplayModelFactory.b`, `q`, `l`, `R`, `NotPreview.a`,
+Hilt's `C0` / `n`, and the stock Kotlin `EmptyCoroutineContext.a` / `Unit.a`) in smali,
+renaming `extensions/extension/libs/rossmann-stub-<version>.jar` to match, and updating the
+`compileOnly` line in `extensions/extension/build.gradle.kts`. The generated Hilt names and
+the stdlib fields are the easiest to miss: they are not app domain API, but the injected
+smali and the extension reference them directly. See
+[extension-and-stubs.md](extension-and-stubs.md).

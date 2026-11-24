@@ -60,9 +60,13 @@ Commits on `main` drive semantic-release; use [conventional commits](https://www
 
 Hard-won, example-driven notes. Read the relevant one before touching that area.
 
+The published v1.0.3 bundle applies to Rossmann 5.11.1 in the local Morphe CLI. Live
+activation and notifications on a signed-in device are **not yet verified**. Only `.mpp`
+bundles go to GitHub; keep input APK/APKM files and patched APKs local.
+
 | Topic | Doc |
 |---|---|
-| Fingerprint matching rules, constructors, string filters, R8 behaviour | [docs/learnings/fingerprints.md](docs/learnings/fingerprints.md) |
-| On-device APK/APKM recon: jadx, apktool, strings, javap | [docs/learnings/apk-analysis-workflow.md](docs/learnings/apk-analysis-workflow.md) |
-| `.mpe` extension + compile-only stub jars, Kotlin suspend interop | [docs/learnings/extension-and-stubs.md](docs/learnings/extension-and-stubs.md) |
-| Build failures, CLI validation, release pipeline, naming/licensing | [docs/learnings/build-and-release.md](docs/learnings/build-and-release.md) |
+| Fingerprint matching rules, constructors, string filters, injection anchors, R8/Hilt/stdlib member renames | [docs/learnings/fingerprints.md](docs/learnings/fingerprints.md) |
+| On-device APK/APKM recon: jadx, apktool, strings, javap; verifying obfuscated stdlib/Hilt names and stub constant folding | [docs/learnings/apk-analysis-workflow.md](docs/learnings/apk-analysis-workflow.md) |
+| `.mpe` extension + compile-only stub jars, stock Kotlin singleton fields, suspend sync vs suspend completion, success-only notifications | [docs/learnings/extension-and-stubs.md](docs/learnings/extension-and-stubs.md) |
+| Build failures, CLI validation, release pipeline, `validate/*` candidate artifacts, naming/licensing | [docs/learnings/build-and-release.md](docs/learnings/build-and-release.md) |
