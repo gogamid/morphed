@@ -34,10 +34,24 @@ private val verifyIntegrityFingerprint = Fingerprint(
     returnType = "V",
 )
 
+/**
+ * `LicenseActivity.onStart` is the last step that can still block the app: the
+ * target install can carry a paywall intent, so the activity opens Play's
+ * "Get this app from Play" screen and then closes the app. Returning at its
+ * start covers every path that reaches the activity, including ones that do
+ * not call [checkLicenseFingerprint] first.
+ */
+private val licenseActivityOnStartFingerprint = Fingerprint(
+    definingClass = "Lcom/pairip/licensecheck/LicenseActivity;",
+    name = "onStart",
+    returnType = "V",
+)
+
 /** Neutralizes PairIP's Play licensing and signature gates. Internal dependency. */
 internal val pairipLicenseCheckPatch = patch {
     execute {
         checkLicenseFingerprint.method.addInstructions(0, "return-void")
         verifyIntegrityFingerprint.method.addInstructions(0, "return-void")
+        licenseActivityOnStartFingerprint.method.addInstructions(0, "return-void")
     }
 }
