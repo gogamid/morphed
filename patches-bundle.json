@@ -1,7 +1,7 @@
 {
-  "created_at": "2026-11-24T13:33:47",
-  "description": "## [1.1.0-dev.4](https://github.com/gogamid/morphed/compare/v1.1.0-dev.3...v1.1.0-dev.4) (2026-11-24)\n\n### 🐛 Bug Fixes\n\n* **meindm:** skip the PairIP VM startup program and licensing binding ([2a98391](https://github.com/gogamid/morphed/commit/2a9839117cd9e0b27d63e14c93c9530d98aac09b))",
-  "download_url": "https://github.com/gogamid/morphed/releases/download/v1.1.0-dev.4/patches-1.1.0-dev.4.mpp",
+  "created_at": "2026-11-24T13:38:55",
+  "description": "## [1.1.0-dev.5](https://github.com/gogamid/morphed/compare/v1.1.0-dev.4...v1.1.0-dev.5) (2026-11-24)\n\n### 🐛 Bug Fixes\n\n* **meindm:** block the licensing bind instead of the VM startup ([f064763](https://github.com/gogamid/morphed/commit/f064763894d7d9c6f108170f99347f98ef6d1e6b))",
+  "download_url": "https://github.com/gogamid/morphed/releases/download/v1.1.0-dev.5/patches-1.1.0-dev.5.mpp",
   "signature_download_url": "",
-  "version": "1.1.0-dev.4"
+  "version": "1.1.0-dev.5"
 }

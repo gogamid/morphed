@@ -1,3 +1,9 @@
+## [1.1.0-dev.5](https://github.com/gogamid/morphed/compare/v1.1.0-dev.4...v1.1.0-dev.5) (2026-11-24)
+
+### 🐛 Bug Fixes
+
+* **meindm:** block the licensing bind instead of the VM startup ([f064763](https://github.com/gogamid/morphed/commit/f064763894d7d9c6f108170f99347f98ef6d1e6b))
+
 ## [1.1.0-dev.4](https://github.com/gogamid/morphed/compare/v1.1.0-dev.3...v1.1.0-dev.4) (2026-11-24)
 
 ### 🐛 Bug Fixes
