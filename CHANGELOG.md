@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/gogamid/morphed/compare/v1.0.1...v1.0.2) (2026-11-24)
+
+### 🐛 Bug Fixes
+
+* **rossmann:** declare the disruptor factory as static instead of exact access flags ([95c9273](https://github.com/gogamid/morphed/commit/95c9273e372d266e07df72d56cf1dc8400d4d6db))
+
 ## [1.0.1](https://github.com/gogamid/morphed/compare/v1.0.0...v1.0.1) (2026-11-24)
 
 ### 🐛 Bug Fixes
