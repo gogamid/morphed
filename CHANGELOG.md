@@ -1,3 +1,9 @@
+## [1.1.0-dev.3](https://github.com/gogamid/morphed/compare/v1.1.0-dev.2...v1.1.0-dev.3) (2026-11-24)
+
+### 🐛 Bug Fixes
+
+* **meindm:** neutralize the PairIP paywall activity as well ([a0d27bc](https://github.com/gogamid/morphed/commit/a0d27bc9f1849f27336757c7c69d4b64fee5ff0e))
+
 ## [1.1.0-dev.2](https://github.com/gogamid/morphed/compare/v1.1.0-dev.1...v1.1.0-dev.2) (2026-11-24)
 
 ### ✨ New Features
