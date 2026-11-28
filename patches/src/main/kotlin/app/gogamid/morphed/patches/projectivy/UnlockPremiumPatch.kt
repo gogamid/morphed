@@ -64,9 +64,8 @@ val unlockPremiumPatch = bytecodePatch(
         // Billing callbacks update the same flow. Preserve the native setter,
         // but prevent an unpaid or expired response from locking features again.
         PremiumStateSetFingerprint.method.apply {
-            check(instructions.count { instruction ->
-                instruction.getReference<FieldReference>()?.toString() == "$PT_APPLICATION->x:Llf4;"
-            } == 1) { "Projectivy premium state setter changed" }
+            // Field types differ between Projectivy distribution builds, so the
+            // setter is pinned by class, name and signature instead.
             addInstructions(0, "const/4 p1, 0x0")
         }
     }
