@@ -1,3 +1,9 @@
+## [1.1.0](https://github.com/gogamid/morphed/compare/v1.0.3...v1.1.0) (2026-11-28)
+
+### ✨ New Features
+
+* **projectivy:** unlock premium and fix theme preset import ([081f343](https://github.com/gogamid/morphed/commit/081f3430a0739fcf3611cd0c1d173e301807974b))
+
 ## [1.0.3](https://github.com/gogamid/morphed/compare/v1.0.2...v1.0.3) (2026-11-24)
 
 ### 🐛 Bug Fixes

@@ -1,6 +1,17 @@
 # Patches
 
-> Generated from `patches-list.json` — **v1.0.3** (`main`) · **1 patch** across **1 app** · back to [README](README.md)
+> Generated from `patches-list.json` — **v1.1.0** (`main`) · **3 patches** across **2 apps** · back to [README](README.md)
+
+---
+
+## Projectivy Launcher (Android TV) (com.spocky.projengmenu)
+
+**Supported versions:** `4.73`
+
+| Patch | Details |
+|---|---|
+| **Fix theme preset import** | Fixes importing appearance presets (Settings &gt; Appearance &gt; Themes &gt; Presets), which otherwise fails with an error because the .pltheme archive is not unwrapped before decryption. |
+| **Unlock Premium** | Unlocks premium features by bypassing the native check and keeping the app's premium feature gates unlocked. |
 
 ---
 

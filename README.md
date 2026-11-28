@@ -33,11 +33,12 @@ Or manually add **https://github.com/gogamid/morphed** as a patch source in Morp
 ## 🩹 Patches list
 
 <!-- PATCHES_START -->
-> **[v1.0.3](https://github.com/gogamid/morphed/releases/tag/v1.0.3)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`main`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**1 patch** across **1 app**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
+> **[v1.1.0](https://github.com/gogamid/morphed/releases/tag/v1.1.0)**&nbsp;&nbsp;&middot;&nbsp;&nbsp;`main`&nbsp;&nbsp;&middot;&nbsp;&nbsp;**3 patches** across **2 apps**&nbsp;&nbsp;&middot;&nbsp;&nbsp;[Full details](PATCHES.md)
 
 | # | App | Patches | Version | Package |
 |---|---|---|---|---|
-| 1 | [**Rossmann**](PATCHES.md#rossmann-derossmannappandroid) | 1 | `5.11.1` | [`de.rossmann.app.android`](https://play.google.com/store/apps/details?id=de.rossmann.app.android) |
+| 1 | [**Projectivy Launcher (Android TV)**](PATCHES.md#projectivy-launcher-android-tv-comspockyprojengmenu) | 2 | `4.73` | [`com.spocky.projengmenu`](https://play.google.com/store/apps/details?id=com.spocky.projengmenu) |
+| 2 | [**Rossmann**](PATCHES.md#rossmann-derossmannappandroid) | 1 | `5.11.1` | [`de.rossmann.app.android`](https://play.google.com/store/apps/details?id=de.rossmann.app.android) |
 <!-- PATCHES_END -->
 
 ## 🧑‍💻 Development
