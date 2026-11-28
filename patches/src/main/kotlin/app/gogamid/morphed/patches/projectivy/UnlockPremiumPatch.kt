@@ -41,16 +41,24 @@ val unlockPremiumPatch = bytecodePatch(
         }
 
         // True means locked. Keep the original StateFlow and its read-only view.
+        // Already-unlocked builds (re-applying the patch) already read FALSE.
         PremiumStateInitFingerprint.method.apply {
-            val initial = instructions.withIndex().single { (_, instruction) ->
+            val initial = instructions.withIndex().firstOrNull { (_, instruction) ->
                 instruction.getReference<FieldReference>()?.toString() ==
                     "Ljava/lang/Boolean;->TRUE:Ljava/lang/Boolean;"
-            }.index
-            val register = getInstruction<OneRegisterInstruction>(initial).registerA
-            replaceInstruction(
-                initial,
-                "sget-object v$register, Ljava/lang/Boolean;->FALSE:Ljava/lang/Boolean;",
-            )
+            }
+            val alreadyUnlocked = instructions.any { instruction ->
+                instruction.getReference<FieldReference>()?.toString() ==
+                    "Ljava/lang/Boolean;->FALSE:Ljava/lang/Boolean;"
+            }
+            check(initial != null || alreadyUnlocked) { "Projectivy premium state initialiser changed" }
+            if (initial != null) {
+                val register = getInstruction<OneRegisterInstruction>(initial.index).registerA
+                replaceInstruction(
+                    initial.index,
+                    "sget-object v$register, Ljava/lang/Boolean;->FALSE:Ljava/lang/Boolean;",
+                )
+            }
         }
 
         // Billing callbacks update the same flow. Preserve the native setter,
