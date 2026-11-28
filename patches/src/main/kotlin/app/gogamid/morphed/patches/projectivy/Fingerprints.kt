@@ -43,7 +43,7 @@ internal object PremiumStateSetFingerprint : Fingerprint(
  * `IllegalBlockSizeException`; the fix patch unwraps the archive first.
  */
 internal object ThemeBackupDecryptFingerprint : Fingerprint(
-    definingClass = "Ldefpackage/y71;",
+    definingClass = "Ly71;",
     name = "b",
     parameters = listOf("[B"),
     returnType = "[B",
