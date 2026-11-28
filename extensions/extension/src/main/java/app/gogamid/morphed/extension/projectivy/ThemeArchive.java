@@ -20,6 +20,10 @@ public final class ThemeArchive {
 
     /** Returns the appearance backup from a `.pltheme` ZIP, or the input unchanged. */
     public static byte[] unwrap(byte[] data) {
+        ThemeDebug.note("decrypt input: " + (data == null ? "null" : data.length + " bytes, head "
+                + String.format("%02x%02x%02x%02x", data.length > 0 ? data[0] : 0,
+                data.length > 1 ? data[1] : 0, data.length > 2 ? data[2] : 0,
+                data.length > 3 ? data[3] : 0)));
         if (data == null || data.length < 4
                 || data[0] != 'P' || data[1] != 'K' || data[2] != 3 || data[3] != 4) {
             return data;
@@ -35,7 +39,9 @@ public final class ThemeArchive {
                     while ((read = zip.read(buffer)) > 0) {
                         out.write(buffer, 0, read);
                     }
-                    return out.toByteArray();
+                    byte[] extracted = out.toByteArray();
+                    ThemeDebug.note("unwrapped " + name + ": " + extracted.length + " bytes");
+                    return extracted;
                 }
             }
         } catch (IOException ignored) {
