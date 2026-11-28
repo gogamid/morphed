@@ -48,3 +48,14 @@ internal object ThemeBackupDecryptFingerprint : Fingerprint(
     parameters = listOf("[B"),
     returnType = "[B",
 )
+
+/**
+ * Initialises `s0`, the extra key-material prefix length used by the appearance
+ * decryptor. The arm32 distribution build sets it to 2, which shifts the IV and
+ * makes every `.plbackup` fail with `WRONG_FINAL_BLOCK_LENGTH`.
+ */
+internal object AccessibilityClinitFingerprint : Fingerprint(
+    definingClass = "Lcom/spocky/projengmenu/services/ProjectivyAccessibilityService;",
+    name = "<clinit>",
+    returnType = "V",
+)
