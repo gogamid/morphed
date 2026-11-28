@@ -32,13 +32,8 @@ val unlockPremiumPatch = bytecodePatch(
     compatibleWith(COMPATIBILITY_PROJECTIVY)
 
     execute {
-        // The upstream e()Z wrapper is f()Z in 4.73. Pin its native call too.
-        PremiumNativeCheckFingerprint.method.apply {
-            check(instructions.any { instruction ->
-                instruction.getReference<MethodReference>()?.toString() == "$PT_APPLICATION->vs(Z)Z"
-            }) { "Projectivy native check changed" }
-            returnEarly(true)
-        }
+        // This distribution build keeps its own licensing semantics; the wrapper
+        // is left untouched because forcing it hid premium-only UI (Presets).
 
         // True means locked. Keep the original StateFlow and its read-only view.
         // Already-unlocked builds (re-applying the patch) already read FALSE.
